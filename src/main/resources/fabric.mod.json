@@ -15,7 +15,8 @@
   "entrypoints": {
     "main": ["diacritics.owo.TotemOverhaul"],
     "client": ["diacritics.owo.TotemOverhaulClient"],
-    "cardinal-components": ["diacritics.owo.component.TotemOverhaulComponents"]
+    "cardinal-components": ["diacritics.owo.component.TotemOverhaulComponents"],
+    "jade": ["diacritics.owo.TotemOverhaulJadePlugin"]
   },
   "mixins": [
     "totem-overhaul.mixins.json",
@@ -32,8 +33,6 @@
     "cardinal-components": "~6.1.1"
   },
   "custom": {
-    "cardinal-components": [
-      "totem-overhaul:jewel"
-    ]
+    "cardinal-components": ["totem-overhaul:jewel"]
   }
 }

@@ -3,7 +3,6 @@ package diacritics.owo.jewel;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -23,7 +22,7 @@ public record Jewel(Identifier identifier, RegistryKey<Item> jewelItem) {
         "textures/entity/illager/evoker/jewel/" + this.identifier.getPath() + ".png");
   }
 
-  public Text getTranslationKey() {
-    return Text.translatable(this.identifier.toTranslationKey("jewel"));
+  public String getTranslationKey() {
+    return this.identifier.toTranslationKey("jewel");
   }
 }

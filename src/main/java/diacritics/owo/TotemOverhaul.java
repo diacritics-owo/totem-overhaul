@@ -8,8 +8,6 @@ import diacritics.owo.item.TotemOverhaulItems;
 import diacritics.owo.jewel.Jewels;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 
-// TODO: jade compat
-
 public class TotemOverhaul implements ModInitializer {
 	public static final String MOD_ID = "totem-overhaul";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
