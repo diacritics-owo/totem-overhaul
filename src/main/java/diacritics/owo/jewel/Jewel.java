@@ -1,15 +1,18 @@
 package diacritics.owo.jewel;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public record Jewel(Identifier identifier) {
-  public static final Codec<Jewel> CODEC = Identifier.CODEC.xmap(Jewel::new, Jewel::identifier);
-  public static final PacketCodec<ByteBuf, Jewel> PACKET_CODEC =
-      Identifier.PACKET_CODEC.xmap(Jewel::new, Jewel::identifier);
+public record Jewel(Identifier identifier, RegistryKey<Item> jewelItem) {
+  public static final Codec<Jewel> CODEC = RecordCodecBuilder.create(instance -> instance
+      .group(Identifier.CODEC.fieldOf("identifier").forGetter(Jewel::identifier), RegistryKey
+          .createCodec(Registries.ITEM.getKey()).fieldOf("jewelItem").forGetter(Jewel::jewelItem))
+      .apply(instance, Jewel::new));
 
   public String toString() {
     return this.identifier.toString();
@@ -21,6 +24,6 @@ public record Jewel(Identifier identifier) {
   }
 
   public Text getTranslationKey() {
-    return Text.translatable(this.identifier.toTranslationKey("jewels"));
+    return Text.translatable(this.identifier.toTranslationKey("jewel"));
   }
 }

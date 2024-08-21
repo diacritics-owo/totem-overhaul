@@ -2,7 +2,12 @@
   "required": true,
   "package": "diacritics.owo.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["EvokerEntityMixin", "VexEntityMixin", "EvokerFangsEntityMixin"],
+  "mixins": [
+    "EvokerEntityMixin",
+    "VexEntityMixin",
+    "EvokerFangsEntityMixin",
+    "LivingEntityMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
