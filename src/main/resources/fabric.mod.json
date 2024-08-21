@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "totem-overhaul",
+  "version": "${version}",
+  "name": "Totem Overhaul",
+  "description": "A mod that redesigns the totem system to be more immersive and lore-able",
+  "authors": ["diacritics-owo"],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/totem-overhaul/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["diacritics.owo.TotemOverhaul"],
+    "client": ["diacritics.owo.TotemOverhaulClient"]
+  },
+  "mixins": [
+    "totem-overhaul.mixins.json",
+    {
+      "config": "totem-overhaul.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.2",
+    "minecraft": "~1.21",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
