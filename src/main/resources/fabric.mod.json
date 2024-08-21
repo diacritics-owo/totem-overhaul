@@ -14,7 +14,8 @@
   "environment": "*",
   "entrypoints": {
     "main": ["diacritics.owo.TotemOverhaul"],
-    "client": ["diacritics.owo.TotemOverhaulClient"]
+    "client": ["diacritics.owo.TotemOverhaulClient"],
+    "cardinal-components": ["diacritics.owo.component.TotemOverhaulComponents"]
   },
   "mixins": [
     "totem-overhaul.mixins.json",
@@ -27,6 +28,12 @@
     "fabricloader": ">=0.16.2",
     "minecraft": "~1.21",
     "java": ">=21",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "cardinal-components": "~6.1.1"
+  },
+  "custom": {
+    "cardinal-components": [
+      "totem-overhaul:jewel"
+    ]
   }
 }
