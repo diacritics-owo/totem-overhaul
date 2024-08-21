@@ -1,7 +1,8 @@
 package diacritics.owo.render.entity.feature;
 
-import diacritics.owo.component.TotemOverhaulComponents;
+import diacritics.owo.component.JewelComponent;
 import diacritics.owo.jewel.Jewel;
+import diacritics.owo.jewel.Jewels;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -20,13 +21,15 @@ public class EvokerJewelFeatureRenderer
   public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i,
       EvokerEntity evoker, float f, float g, float h, float j, float k, float l) {
     if (!evoker.isInvisible()) {
-      Jewel jewel = TotemOverhaulRegistries.JEWEL
-          .get(TotemOverhaulComponents.JEWEL.get(evoker).getJewelKey());
+      // TODO: doesn't update properly when getting it directly via cardinal components
 
-      if (jewel != null) {
-        renderModel(this.getContextModel(), jewel.getFeatureTexture(), matrixStack,
-            vertexConsumerProvider, i, evoker, -1);
-      }
+      Jewel jewel =
+          TotemOverhaulRegistries.JEWEL.get(JewelComponent.JEWEL_MAP.get(evoker.getUuid()));
+
+      renderModel(this.getContextModel(),
+          (jewel == null ? TotemOverhaulRegistries.JEWEL.get(Jewels.DEFAULT) : jewel)
+              .getFeatureTexture(),
+          matrixStack, vertexConsumerProvider, i, evoker, -1);
     }
   }
 }
