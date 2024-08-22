@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "totem-overhaul:item/totem_of_undying",
+    "layer1": "totem-overhaul:item/totem_of_undying/jewel"
+  }
+}

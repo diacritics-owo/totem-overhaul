@@ -1,7 +1,6 @@
 package diacritics.owo;
 
 import diacritics.owo.component.TotemOverhaulComponents;
-import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -47,8 +46,8 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
     @Override
     public void appendServerData(NbtCompound data, EntityAccessor accessor) {
       EvokerEntity evoker = (EvokerEntity) accessor.getEntity();
-      data.putString("Jewel", TotemOverhaulRegistries.JEWEL
-          .get(TotemOverhaulComponents.JEWEL.get(evoker).getJewelKey()).getTranslationKey());
+      data.putString("Jewel",
+          TotemOverhaulComponents.JEWEL.get(evoker).getJewel().getTranslationKey());
     }
   }
 }
