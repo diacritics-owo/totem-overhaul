@@ -6,13 +6,11 @@ import diacritics.owo.item.JewelItem;
 import diacritics.owo.jewel.Jewel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.WrittenBookItem;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import java.util.Optional;
 
@@ -33,6 +31,10 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
           }
 
           totem = craftingRecipeInput.getStackInSlot(i);
+
+          if (totem.get(TotemOverhaulDataComponentTypes.JEWEL) != null) {
+            return Optional.empty();
+          }
         } else if (craftingRecipeInput.getStackInSlot(i).getItem() instanceof JewelItem jewelItem) {
           if (jewel != null) {
             return Optional.empty();
@@ -60,7 +62,7 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
     Optional<Pair<ItemStack, Jewel>> inputs = this.inputs(craftingRecipeInput);
 
     if (inputs.isPresent()) {
-      ItemStack result = inputs.get().first;
+      ItemStack result = inputs.get().first.copy();
       result.set(TotemOverhaulDataComponentTypes.JEWEL, inputs.get().second);
       return result;
     }
@@ -68,25 +70,8 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
     return ItemStack.EMPTY;
   }
 
-  public DefaultedList<ItemStack> getRemainder(CraftingRecipeInput craftingRecipeInput) {
-    DefaultedList<ItemStack> defaultedList =
-        DefaultedList.ofSize(craftingRecipeInput.getSize(), ItemStack.EMPTY);
-
-    for (int i = 0; i < defaultedList.size(); ++i) {
-      ItemStack itemStack = craftingRecipeInput.getStackInSlot(i);
-      if (itemStack.getItem().hasRecipeRemainder()) {
-        defaultedList.set(i, new ItemStack(itemStack.getItem().getRecipeRemainder()));
-      } else if (itemStack.getItem() instanceof WrittenBookItem) {
-        defaultedList.set(i, itemStack.copyWithCount(1));
-        break;
-      }
-    }
-
-    return defaultedList;
-  }
-
   public RecipeSerializer<?> getSerializer() {
-    return RecipeSerializer.BOOK_CLONING;
+    return TotemOverhaulRecipeSerializers.TOTEM_JEWEL;
   }
 
   public boolean fits(int width, int height) {

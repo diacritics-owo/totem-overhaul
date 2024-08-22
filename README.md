@@ -10,5 +10,5 @@ A mod that redesigns the totem system to be more immersive and lore-able
 
 ## Incompatibilities
 
-- Most (all?) shaders - the jewel texture layer for empty totems will be black,
-  not transparent (only a minor cosmetic issue)
+- A few shaders, including Complementary Shaders - the jewel texture layer for
+  empty totems will be black, not transparent (only a minor cosmetic issue)
