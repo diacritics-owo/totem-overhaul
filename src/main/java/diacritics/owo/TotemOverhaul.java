@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.item.TotemOverhaulItems;
 import diacritics.owo.jewel.Jewels;
+import diacritics.owo.recipe.TotemOverhaulRecipeSerializers;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 
 // TODO: unique gem textures
@@ -22,6 +23,7 @@ public class TotemOverhaul implements ModInitializer {
 		Jewels.initialize();
 		TotemOverhaulItems.initialize();
 		TotemOverhaulDataComponentTypes.initialize();
+		TotemOverhaulRecipeSerializers.initialize();
 	}
 
 	public static Identifier identifier(String path) {

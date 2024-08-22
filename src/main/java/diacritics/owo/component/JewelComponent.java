@@ -65,7 +65,8 @@ public class JewelComponent implements AutoSyncedComponent {
     }
 
     // TODO: remove jewel completely (this evoker can't get another)
-    this.evoker.dropItem(Registries.ITEM.get(this.jewel.jewelItem()));
+    // TODO: not a good solution for getting the item
+    this.evoker.dropItem(Registries.ITEM.get(this.jewel.identifier().withSuffixedPath("_jewel")));
 
     this.setJewel(null);
 
