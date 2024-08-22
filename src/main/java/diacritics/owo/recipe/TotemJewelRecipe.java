@@ -4,6 +4,7 @@ import com.ibm.icu.impl.Pair;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.item.JewelItem;
 import diacritics.owo.jewel.Jewel;
+import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
@@ -40,7 +41,7 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
             return Optional.empty();
           }
 
-          jewel = jewelItem.getJewel();
+          jewel = TotemOverhaulRegistries.JEWEL.get(jewelItem.getJewelKey());
         } else {
           return Optional.empty();
         }

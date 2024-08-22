@@ -9,7 +9,6 @@ import diacritics.owo.item.TotemOverhaulItems;
 import diacritics.owo.jewel.Jewels;
 import diacritics.owo.jewel.effect.JewelEffects;
 import diacritics.owo.recipe.TotemOverhaulRecipeSerializers;
-import diacritics.owo.registry.TotemOverhaulRegistries;
 
 // TODO: unique gem textures
 public class TotemOverhaul implements ModInitializer {
@@ -20,7 +19,6 @@ public class TotemOverhaul implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("hello from totem overhaul!");
 
-		TotemOverhaulRegistries.initialize();
 		Jewels.initialize();
 		TotemOverhaulItems.initialize();
 		TotemOverhaulDataComponentTypes.initialize();

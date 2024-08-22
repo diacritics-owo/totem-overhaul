@@ -2,17 +2,18 @@ package diacritics.owo.item;
 
 import diacritics.owo.jewel.Jewel;
 import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Rarity;
 
 public class JewelItem extends Item {
-  private final Jewel jewel;
+  private final RegistryKey<Jewel> jewelKey;
 
-  public JewelItem(Jewel jewel, Settings settings) {
+  public JewelItem(RegistryKey<Jewel> jewelKey, Settings settings) {
     super(settings.maxCount(1).fireproof().rarity(Rarity.UNCOMMON));
-    this.jewel = jewel;
+    this.jewelKey = jewelKey;
   }
 
-  public Jewel getJewel() {
-    return this.jewel;
+  public RegistryKey<Jewel> getJewelKey() {
+    return this.jewelKey;
   }
 }

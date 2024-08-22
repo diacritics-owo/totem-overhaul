@@ -65,7 +65,7 @@ abstract public class LivingEntityMixin extends Entity {
 
       if (totem != null) {
         Function<LivingEntity, Boolean> effect =
-            TotemOverhaulRegistries.JEWEL_EFFECTS.get(TotemOverhaulRegistries.JEWEL
+            TotemOverhaulRegistries.JEWEL_EFFECT.get(TotemOverhaulRegistries.JEWEL
                 .getKey(totem.get(TotemOverhaulDataComponentTypes.JEWEL)).orElse(null).getValue());
 
         if (effect != null && effect.apply((LivingEntity) (Object) this)) {

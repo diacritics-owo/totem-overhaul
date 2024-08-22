@@ -17,6 +17,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import java.util.function.Function;
 
 public class JewelComponent implements AutoSyncedComponent {
@@ -45,12 +46,7 @@ public class JewelComponent implements AutoSyncedComponent {
       return null;
     }
 
-    return this.jewelKey == null ? TotemOverhaulRegistries.JEWEL.getKey(Jewels.DEFAULT).orElse(null)
-        : this.jewelKey;
-  }
-
-  public void setJewel(Jewel jewel) {
-    this.setJewelKey(TotemOverhaulRegistries.JEWEL.getKey(jewel).orElse(null));
+    return this.jewelKey == null ? Jewels.DEFAULT : this.jewelKey;
   }
 
   public void setJewelKey(RegistryKey<Jewel> jewelKey) {
@@ -60,11 +56,11 @@ public class JewelComponent implements AutoSyncedComponent {
 
   public void killedEntity(ServerWorld world, LivingEntity entity) {
     if (entity instanceof PlayerEntity) {
-      this.setJewel(Jewels.RED);
+      this.setJewelKey(Jewels.RED);
     } else if (entity instanceof MerchantEntity) {
-      this.setJewel(Jewels.GREEN);
+      this.setJewelKey(Jewels.GREEN);
     } else if (entity instanceof GolemEntity) {
-      this.setJewel(Jewels.BLUE);
+      this.setJewelKey(Jewels.BLUE);
     }
   }
 
@@ -74,9 +70,9 @@ public class JewelComponent implements AutoSyncedComponent {
     }
 
     Function<LivingEntity, Boolean> effect =
-        TotemOverhaulRegistries.JEWEL_EFFECTS.get(this.jewelKey.getValue());
+        TotemOverhaulRegistries.JEWEL_EFFECT.get(this.jewelKey.getValue());
     this.provider.dropItem(
-        Registries.ITEM.get(TotemOverhaulRegistries.JEWEL_ITEMS.get(this.jewelKey.getValue())));
+        Registries.ITEM.get(TotemOverhaulRegistries.JEWEL_ITEM.get(this.jewelKey.getValue())));
 
     this.canHaveJewel = false;
     this.setJewelKey(null);
@@ -86,6 +82,17 @@ public class JewelComponent implements AutoSyncedComponent {
     }
 
     return false;
+  }
+
+  public Identifier getFeatureTexture(String entity) {
+    Identifier identifier = this.getJewelKey().getValue();
+    return Identifier.of(identifier.getNamespace(),
+        "textures/entity/" + entity + "/jewel/" + identifier.getPath() + ".png");
+  }
+
+  public String getTranslationKey() {
+    Identifier identifier = this.getJewelKey().getValue();
+    return identifier.toTranslationKey("jewel");
   }
 
   @Override
