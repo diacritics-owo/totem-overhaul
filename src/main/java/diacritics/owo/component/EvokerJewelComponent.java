@@ -24,9 +24,11 @@ import net.minecraft.server.world.ServerWorld;
 // TODO: generalise it to all entities?
 public class EvokerJewelComponent implements AutoSyncedComponent {
   public static final String JEWEL_KEY = "jewel";
+  public static final String CAN_HAVE_JEWEL_KEY = "canHaveJewel";
 
   private final EvokerEntity evoker;
   private RegistryKey<Jewel> jewelKey;
+  private boolean canHaveJewel = true;
 
   public EvokerJewelComponent(EvokerEntity evoker) {
     this.evoker = evoker;
@@ -42,6 +44,10 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
   }
 
   public RegistryKey<Jewel> getJewelKey() {
+    if (!this.canHaveJewel) {
+      return null;
+    }
+
     return this.jewelKey == null ? TotemOverhaulRegistries.JEWEL.getKey(Jewels.DEFAULT).orElse(null)
         : this.jewelKey;
   }
@@ -70,10 +76,9 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
       return false;
     }
 
-    // TODO: remove jewel completely (this evoker can't get another)
     this.evoker.dropItem(
         Registries.ITEM.get(TotemOverhaulRegistries.JEWEL_ITEMS.get(this.jewelKey.getValue())));
-
+    this.canHaveJewel = false;
     this.setJewelKey(null);
 
     // TODO: effects based on the jewel
@@ -100,6 +105,12 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
     } else {
       this.setJewelKey(null);
     }
+
+    if (tag.contains(CAN_HAVE_JEWEL_KEY)) {
+      this.canHaveJewel = tag.getBoolean(CAN_HAVE_JEWEL_KEY);
+    } else {
+      this.canHaveJewel = true;
+    }
   }
 
   @Override
@@ -110,5 +121,7 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
       tag.put(JEWEL_KEY, TotemOverhaulRegistries.JEWEL_CODEC
           .encodeStart(registryLookup.getOps(NbtOps.INSTANCE), this.jewelKey).getOrThrow());
     }
+
+    tag.putBoolean(CAN_HAVE_JEWEL_KEY, canHaveJewel);
   }
 }

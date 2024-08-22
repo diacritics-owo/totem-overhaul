@@ -1,6 +1,7 @@
 package diacritics.owo;
 
 import diacritics.owo.component.TotemOverhaulComponents;
+import diacritics.owo.jewel.Jewel;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -34,8 +35,10 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-      tooltip.add(Text.translatable("totem-overhaul.jewel",
-          Text.translatable(accessor.getServerData().getString("Jewel"))));
+      if (accessor.getServerData().contains("jewel")) {
+        tooltip.add(Text.translatable("totem-overhaul.jewel",
+            Text.translatable(accessor.getServerData().getString("jewel"))));
+      }
     }
 
     @Override
@@ -46,8 +49,11 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
     @Override
     public void appendServerData(NbtCompound data, EntityAccessor accessor) {
       EvokerEntity evoker = (EvokerEntity) accessor.getEntity();
-      data.putString("Jewel",
-          TotemOverhaulComponents.JEWEL.get(evoker).getJewel().getTranslationKey());
+      Jewel jewel = TotemOverhaulComponents.JEWEL.get(evoker).getJewel();
+
+      if (jewel != null) {
+        data.putString("jewel", jewel.getTranslationKey());
+      }
     }
   }
 }
