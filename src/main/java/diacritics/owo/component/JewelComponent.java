@@ -90,11 +90,6 @@ public class JewelComponent implements AutoSyncedComponent {
         "textures/entity/" + entity + "/jewel/" + identifier.getPath() + ".png");
   }
 
-  public String getTranslationKey() {
-    Identifier identifier = this.getJewelKey().getValue();
-    return identifier.toTranslationKey("jewel");
-  }
-
   @Override
   public void readFromNbt(NbtCompound tag, WrapperLookup registryLookup) {
     if (tag.contains(JEWEL_KEY)) {

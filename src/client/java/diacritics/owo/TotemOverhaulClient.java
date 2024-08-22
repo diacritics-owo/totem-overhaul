@@ -2,6 +2,7 @@ package diacritics.owo;
 
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.jewel.Jewel;
+import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.item.Items;
@@ -11,7 +12,8 @@ public class TotemOverhaulClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			if (tintIndex == 1) {
-				if (stack.get(TotemOverhaulDataComponentTypes.JEWEL) instanceof Jewel jewel) {
+				if (TotemOverhaulRegistries.JEWEL
+						.get(stack.get(TotemOverhaulDataComponentTypes.JEWEL)) instanceof Jewel jewel) {
 					return 0xFF000000 + jewel.color();
 				}
 

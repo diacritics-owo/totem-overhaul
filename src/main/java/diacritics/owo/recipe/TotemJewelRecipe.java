@@ -4,13 +4,13 @@ import com.ibm.icu.impl.Pair;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.item.JewelItem;
 import diacritics.owo.jewel.Jewel;
-import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.recipe.input.CraftingRecipeInput;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import java.util.Optional;
@@ -20,9 +20,10 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
     super(craftingRecipeCategory);
   }
 
-  public Optional<Pair<ItemStack, Jewel>> inputs(CraftingRecipeInput craftingRecipeInput) {
+  public Optional<Pair<ItemStack, RegistryKey<Jewel>>> inputs(
+      CraftingRecipeInput craftingRecipeInput) {
     ItemStack totem = ItemStack.EMPTY;
-    Jewel jewel = null;
+    RegistryKey<Jewel> jewel = null;
 
     for (int i = 0; i < craftingRecipeInput.getSize(); i++) {
       if (!craftingRecipeInput.getStackInSlot(i).isEmpty()) {
@@ -41,7 +42,7 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
             return Optional.empty();
           }
 
-          jewel = TotemOverhaulRegistries.JEWEL.get(jewelItem.getJewelKey());
+          jewel = jewelItem.getJewelKey();
         } else {
           return Optional.empty();
         }
@@ -60,7 +61,7 @@ public class TotemJewelRecipe extends SpecialCraftingRecipe {
   @Override
   public ItemStack craft(CraftingRecipeInput craftingRecipeInput,
       RegistryWrapper.WrapperLookup wrapperLookup) {
-    Optional<Pair<ItemStack, Jewel>> inputs = this.inputs(craftingRecipeInput);
+    Optional<Pair<ItemStack, RegistryKey<Jewel>>> inputs = this.inputs(craftingRecipeInput);
 
     if (inputs.isPresent()) {
       ItemStack result = inputs.get().first.copy();

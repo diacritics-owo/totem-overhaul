@@ -6,7 +6,8 @@
     "EvokerEntityMixin",
     "VexEntityMixin",
     "EvokerFangsEntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -36,8 +36,7 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
       if (accessor.getServerData().contains("jewel")) {
-        tooltip.add(Text.translatable("totem-overhaul.jewel",
-            Text.translatable(accessor.getServerData().getString("jewel"))));
+        tooltip.add(Text.translatable(accessor.getServerData().getString("jewel")));
       }
     }
 
@@ -52,7 +51,7 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
       JewelComponent jewelComponent = TotemOverhaulComponents.JEWEL.get(evoker);
 
       if (jewelComponent.getJewel() != null) {
-        data.putString("jewel", jewelComponent.getTranslationKey());
+        data.putString("jewel", jewelComponent.getJewelKey().getValue().toTranslationKey("jewel"));
       }
     }
   }
