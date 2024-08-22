@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.item.TotemOverhaulItems;
 import diacritics.owo.jewel.Jewels;
+import diacritics.owo.jewel.effect.JewelEffects;
 import diacritics.owo.recipe.TotemOverhaulRecipeSerializers;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 
@@ -24,6 +25,7 @@ public class TotemOverhaul implements ModInitializer {
 		TotemOverhaulItems.initialize();
 		TotemOverhaulDataComponentTypes.initialize();
 		TotemOverhaulRecipeSerializers.initialize();
+		JewelEffects.initialize();
 	}
 
 	public static Identifier identifier(String path) {

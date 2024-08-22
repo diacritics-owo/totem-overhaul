@@ -8,11 +8,11 @@ import diacritics.owo.TotemOverhaul;
 import net.minecraft.entity.mob.EvokerEntity;
 
 public class TotemOverhaulComponents implements EntityComponentInitializer {
-  public static final ComponentKey<EvokerJewelComponent> JEWEL =
-      ComponentRegistry.getOrCreate(TotemOverhaul.identifier("jewel"), EvokerJewelComponent.class);
+  public static final ComponentKey<JewelComponent> JEWEL =
+      ComponentRegistry.getOrCreate(TotemOverhaul.identifier("jewel"), JewelComponent.class);
 
   @Override
   public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-    registry.registerFor(EvokerEntity.class, JEWEL, EvokerJewelComponent::new);
+    registry.registerFor(EvokerEntity.class, JEWEL, JewelComponent::new);
   }
 }

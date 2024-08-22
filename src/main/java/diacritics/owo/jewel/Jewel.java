@@ -8,6 +8,7 @@ import net.minecraft.util.dynamic.Codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+// TODO: refactor to remove identifier from record
 public record Jewel(Identifier identifier, int color) {
   public static final Codec<Jewel> CODEC = RecordCodecBuilder.create(instance -> instance
       .group(Identifier.CODEC.fieldOf("identifier").forGetter(Jewel::identifier),

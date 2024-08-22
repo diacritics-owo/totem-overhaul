@@ -7,9 +7,6 @@ import diacritics.owo.jewel.Jewels;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,22 +17,22 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
+import java.util.function.Function;
 
-// TODO: generalise it to all entities?
-public class EvokerJewelComponent implements AutoSyncedComponent {
+public class JewelComponent implements AutoSyncedComponent {
   public static final String JEWEL_KEY = "jewel";
   public static final String CAN_HAVE_JEWEL_KEY = "canHaveJewel";
 
-  private final EvokerEntity evoker;
+  private final LivingEntity provider;
   private RegistryKey<Jewel> jewelKey;
   private boolean canHaveJewel = true;
 
-  public EvokerJewelComponent(EvokerEntity evoker) {
-    this.evoker = evoker;
+  public JewelComponent(LivingEntity provider) {
+    this.provider = provider;
   }
 
-  public EvokerJewelComponent(EvokerEntity evoker, RegistryKey<Jewel> jewelKey) {
-    this.evoker = evoker;
+  public JewelComponent(LivingEntity provider, RegistryKey<Jewel> jewelKey) {
+    this.provider = provider;
     this.setJewelKey(jewelKey);
   }
 
@@ -58,7 +55,7 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
 
   public void setJewelKey(RegistryKey<Jewel> jewelKey) {
     this.jewelKey = jewelKey;
-    TotemOverhaulComponents.JEWEL.sync(this.evoker);
+    TotemOverhaulComponents.JEWEL.sync(this.provider);
   }
 
   public void killedEntity(ServerWorld world, LivingEntity entity) {
@@ -76,20 +73,19 @@ public class EvokerJewelComponent implements AutoSyncedComponent {
       return false;
     }
 
-    this.evoker.dropItem(
+    Function<LivingEntity, Boolean> effect =
+        TotemOverhaulRegistries.JEWEL_EFFECTS.get(this.jewelKey.getValue());
+    this.provider.dropItem(
         Registries.ITEM.get(TotemOverhaulRegistries.JEWEL_ITEMS.get(this.jewelKey.getValue())));
+
     this.canHaveJewel = false;
     this.setJewelKey(null);
 
-    // TODO: effects based on the jewel
-    this.evoker.setHealth(1.0F);
-    this.evoker.clearStatusEffects();
-    this.evoker.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-    this.evoker.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-    this.evoker.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-    this.evoker.getWorld().sendEntityStatus(this.evoker, (byte) 35);
+    if (effect != null) {
+      return effect.apply(this.provider);
+    }
 
-    return true;
+    return false;
   }
 
   @Override
