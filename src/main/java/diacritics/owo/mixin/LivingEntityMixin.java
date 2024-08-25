@@ -46,8 +46,10 @@ abstract public class LivingEntityMixin extends Entity {
     return original.call(instance, source);
   }
 
-  // TODO: the postmortal advancement doesn't work
   @Overwrite
+  /*
+   * @reason The totem usage logic is replaced completely, necessitating an overwrite
+   */
   private boolean tryUseTotem(DamageSource source) {
     if (!source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
       ItemStack totem = null;
@@ -68,13 +70,13 @@ abstract public class LivingEntityMixin extends Entity {
             .get(totem.get(TotemOverhaulDataComponentTypes.JEWEL).getValue());
 
         if (effect != null && effect.apply((LivingEntity) (Object) this)) {
-          totem.decrement(1);
-
           if ((Object) this instanceof ServerPlayerEntity serverPlayerEntity) {
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING));
             Criteria.USED_TOTEM.trigger(serverPlayerEntity, totem);
             this.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
           }
+
+          totem.decrement(1);
 
           return true;
         }

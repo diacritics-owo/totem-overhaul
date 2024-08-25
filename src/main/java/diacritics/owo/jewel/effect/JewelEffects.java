@@ -10,37 +10,28 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.RegistryKey;
 
 public class JewelEffects {
-  public static RegistryKey<Function<LivingEntity, Boolean>> RED =
-      register(Jewels.RED, (entity) -> {
+  public static Function<LivingEntity, Boolean> VANILLA = (entity) -> {
+    entity.setHealth(1.0F);
+    entity.clearStatusEffects();
+    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
+    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+    entity.getWorld().sendEntityStatus(entity, (byte) 35);
+
+    return true;
+  };
+
+  public static RegistryKey<Function<LivingEntity, Boolean>> BLOOD =
+      register(Jewels.BLOOD, (entity) -> {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
+
+        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 500, 1));
+        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 500, 1));
+
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
         entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-        entity.getWorld().sendEntityStatus(entity, (byte) 35);
 
-        return true;
-      });
-
-  public static RegistryKey<Function<LivingEntity, Boolean>> GREEN =
-      register(Jewels.GREEN, (entity) -> {
-        entity.setHealth(1.0F);
-        entity.clearStatusEffects();
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-        entity.getWorld().sendEntityStatus(entity, (byte) 35);
-
-        return true;
-      });
-
-  public static RegistryKey<Function<LivingEntity, Boolean>> BLUE =
-      register(Jewels.BLUE, (entity) -> {
-        entity.setHealth(1.0F);
-        entity.clearStatusEffects();
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
 
         return true;

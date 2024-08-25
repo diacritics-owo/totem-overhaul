@@ -21,8 +21,7 @@ public class TotemOverhaulHelpers {
   public static RegistryKey<Function<LivingEntity, Boolean>> registerJewelEffect(
       RegistryKey<Jewel> jewel, Function<LivingEntity, Boolean> function) {
     return TotemOverhaulRegistries.JEWEL_EFFECT
-        .getKey(
-            Registry.register(TotemOverhaulRegistries.JEWEL_EFFECT, jewel.getValue(), function))
+        .getKey(Registry.register(TotemOverhaulRegistries.JEWEL_EFFECT, jewel.getValue(), function))
         .get();
   }
 

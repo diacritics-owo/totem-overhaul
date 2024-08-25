@@ -1,12 +1,8 @@
 {
-  "item.totem-overhaul.red_jewel": "Red Jewel",
-  "item.totem-overhaul.green_jewel": "Green Jewel",
-  "item.totem-overhaul.blue_jewel": "Blue Jewel",
+  "item.totem-overhaul.blood_jewel": "Blood Jewel",
 
   "jewel.totem-overhaul.gray": "No Jewel",
-  "jewel.totem-overhaul.red": "Red Jewel",
-  "jewel.totem-overhaul.green": "Green Jewel",
-  "jewel.totem-overhaul.blue": "Blue Jewel",
+  "jewel.totem-overhaul.blood": "Blood Jewel",
 
   "config.jade.plugin_totem-overhaul.jewel": "Jewel"
 }

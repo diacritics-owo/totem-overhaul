@@ -7,9 +7,7 @@ import diacritics.owo.jewel.Jewels;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.Registries;
@@ -46,7 +44,7 @@ public class JewelComponent implements AutoSyncedComponent {
       return null;
     }
 
-    return this.jewelKey == null ? Jewels.DEFAULT : this.jewelKey;
+    return this.jewelKey == null ? Jewels.NONE : this.jewelKey;
   }
 
   public void setJewelKey(RegistryKey<Jewel> jewelKey) {
@@ -54,13 +52,10 @@ public class JewelComponent implements AutoSyncedComponent {
     TotemOverhaulComponents.JEWEL.sync(this.provider);
   }
 
+  // TODO: move this somewhere else
   public void killedEntity(ServerWorld world, LivingEntity entity) {
-    if (entity instanceof PlayerEntity) {
-      this.setJewelKey(Jewels.RED);
-    } else if (entity instanceof MerchantEntity) {
-      this.setJewelKey(Jewels.GREEN);
-    } else if (entity instanceof GolemEntity) {
-      this.setJewelKey(Jewels.BLUE);
+    if (entity instanceof MerchantEntity) {
+      this.setJewelKey(Jewels.BLOOD);
     }
   }
 
