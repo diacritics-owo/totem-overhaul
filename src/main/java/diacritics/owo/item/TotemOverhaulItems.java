@@ -12,6 +12,10 @@ import net.minecraft.registry.RegistryKey;
 public class TotemOverhaulItems {
   public static final RegistryKey<Item> BLOOD_JEWEL =
       registerJewelItem("blood_jewel", new JewelItem(Jewels.BLOOD, new Item.Settings()));
+  public static final RegistryKey<Item> VOID_JEWEL =
+      registerJewelItem("void_jewel", new JewelItem(Jewels.VOID, new Item.Settings()));
+  public static final RegistryKey<Item> CHORUS_JEWEL =
+      registerJewelItem("chorus_jewel", new JewelItem(Jewels.CHORUS, new Item.Settings()));
 
   public static RegistryKey<Item> registerJewelItem(String identifier, JewelItem item) {
     return TotemOverhaulHelpers.registerJewelItem(TotemOverhaul.identifier(identifier), item);

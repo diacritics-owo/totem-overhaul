@@ -6,6 +6,7 @@ import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import diacritics.owo.Helpers;
 import diacritics.owo.component.TotemOverhaulComponents;
 
 @Mixin(EvokerEntity.class)
@@ -16,7 +17,7 @@ abstract public class EvokerEntityMixin extends LivingEntity {
 
   @Override
   public boolean onKilledOther(ServerWorld world, LivingEntity other) {
-    TotemOverhaulComponents.JEWEL.get(this).killedEntity(world, other);
+    Helpers.onEvokerKilledEntity(TotemOverhaulComponents.JEWEL.get(this), other);
     return true;
   }
 }

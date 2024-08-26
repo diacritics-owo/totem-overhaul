@@ -1,10 +1,17 @@
 package diacritics.owo;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTables;
+import net.minecraft.loot.entry.EmptyEntry;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
@@ -19,7 +26,7 @@ import diacritics.owo.jewel.Jewels;
 import diacritics.owo.jewel.effect.JewelEffects;
 import diacritics.owo.recipe.TotemOverhaulRecipeSerializers;
 
-// TODO: unique gem textures
+// TODO: config
 public class TotemOverhaul implements ModInitializer {
 	public static final String MOD_ID = "totem-overhaul";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -42,6 +49,20 @@ public class TotemOverhaul implements ModInitializer {
 							new ItemStack(Items.TOTEM_OF_UNDYING, 1), random.nextBetween(2, 5), 15, 1);
 				}
 			});
+		});
+
+		LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
+			if (key.equals(LootTables.END_CITY_TREASURE_CHEST)) {
+				builder.pool(LootPool.builder().bonusRolls(ConstantLootNumberProvider.create(0))
+						.with(EmptyEntry.builder().weight(20))
+						.with(ItemEntry.builder(Registries.ITEM.get(TotemOverhaulItems.VOID_JEWEL)).weight(4))
+						.rolls(ConstantLootNumberProvider.create(1)));
+
+				builder.pool(LootPool.builder().bonusRolls(ConstantLootNumberProvider.create(0))
+						.with(EmptyEntry.builder().weight(20))
+						.with(ItemEntry.builder(Registries.ITEM.get(TotemOverhaulItems.CHORUS_JEWEL)).weight(5))
+						.rolls(ConstantLootNumberProvider.create(1)));
+			}
 		});
 	}
 

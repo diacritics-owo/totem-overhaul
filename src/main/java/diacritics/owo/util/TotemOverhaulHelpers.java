@@ -1,10 +1,11 @@
 package diacritics.owo.util;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import diacritics.owo.item.JewelItem;
 import diacritics.owo.jewel.Jewel;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -18,8 +19,8 @@ public class TotemOverhaulHelpers {
         Registries.ITEM.getKey(Registry.register(Registries.ITEM, identifier, item)).get());
   }
 
-  public static RegistryKey<Function<LivingEntity, Boolean>> registerJewelEffect(
-      RegistryKey<Jewel> jewel, Function<LivingEntity, Boolean> function) {
+  public static RegistryKey<BiFunction<LivingEntity, DamageSource, Boolean>> registerJewelEffect(
+      RegistryKey<Jewel> jewel, BiFunction<LivingEntity, DamageSource, Boolean> function) {
     return TotemOverhaulRegistries.JEWEL_EFFECT
         .getKey(Registry.register(TotemOverhaulRegistries.JEWEL_EFFECT, jewel.getValue(), function))
         .get();

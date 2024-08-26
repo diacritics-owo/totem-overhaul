@@ -7,18 +7,15 @@ import diacritics.owo.jewel.Jewels;
 import diacritics.owo.registry.TotemOverhaulRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public class JewelComponent implements AutoSyncedComponent {
+public class EntityJewelComponent implements AutoSyncedComponent {
   public static final String JEWEL_KEY = "jewel";
   public static final String CAN_HAVE_JEWEL_KEY = "canHaveJewel";
 
@@ -26,11 +23,11 @@ public class JewelComponent implements AutoSyncedComponent {
   private RegistryKey<Jewel> jewelKey;
   private boolean canHaveJewel = true;
 
-  public JewelComponent(LivingEntity provider) {
+  public EntityJewelComponent(LivingEntity provider) {
     this.provider = provider;
   }
 
-  public JewelComponent(LivingEntity provider, RegistryKey<Jewel> jewelKey) {
+  public EntityJewelComponent(LivingEntity provider, RegistryKey<Jewel> jewelKey) {
     this.provider = provider;
     this.setJewelKey(jewelKey);
   }
@@ -52,19 +49,12 @@ public class JewelComponent implements AutoSyncedComponent {
     TotemOverhaulComponents.JEWEL.sync(this.provider);
   }
 
-  // TODO: move this somewhere else
-  public void killedEntity(ServerWorld world, LivingEntity entity) {
-    if (entity instanceof MerchantEntity) {
-      this.setJewelKey(Jewels.BLOOD);
-    }
-  }
-
   public boolean tryUseJewel(DamageSource source) {
-    if (this.jewelKey == null || source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+    if (this.jewelKey == null) {
       return false;
     }
 
-    Function<LivingEntity, Boolean> effect =
+    BiFunction<LivingEntity, DamageSource, Boolean> effect =
         TotemOverhaulRegistries.JEWEL_EFFECT.get(this.jewelKey.getValue());
     this.provider.dropItem(
         Registries.ITEM.get(TotemOverhaulRegistries.JEWEL_ITEM.get(this.jewelKey.getValue())));
@@ -72,11 +62,7 @@ public class JewelComponent implements AutoSyncedComponent {
     this.canHaveJewel = false;
     this.setJewelKey(null);
 
-    if (effect != null) {
-      return effect.apply(this.provider);
-    }
-
-    return false;
+    return effect != null && effect.apply(this.provider, source);
   }
 
   public Identifier getFeatureTexture(String entity) {

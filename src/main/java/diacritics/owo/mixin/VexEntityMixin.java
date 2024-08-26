@@ -10,6 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import diacritics.owo.Helpers;
 import diacritics.owo.component.TotemOverhaulComponents;
 
 @Mixin(VexEntity.class)
@@ -24,7 +25,7 @@ abstract public class VexEntityMixin extends Entity {
   @Override
   public boolean onKilledOther(ServerWorld world, LivingEntity other) {
     if (this.getOwner() instanceof EvokerEntity evoker) {
-      TotemOverhaulComponents.JEWEL.get(evoker).killedEntity(world, other);
+      Helpers.onEvokerKilledEntity(TotemOverhaulComponents.JEWEL.get(evoker), other);
     }
 
     return true;
