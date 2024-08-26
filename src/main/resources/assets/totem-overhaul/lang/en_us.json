@@ -1,8 +1,12 @@
 {
   "item.totem-overhaul.blood_jewel": "Blood Jewel",
+  "item.totem-overhaul.void_jewel": "Void Jewel",
+  "item.totem-overhaul.chorus_jewel": "Chorus Jewel",
 
-  "jewel.totem-overhaul.gray": "No Jewel",
+  "jewel.totem-overhaul.none": "No Jewel",
   "jewel.totem-overhaul.blood": "Blood Jewel",
+  "jewel.totem-overhaul.void": "Void Jewel",
+  "jewel.totem-overhaul.chorus": "Chorus Jewel",
 
   "config.jade.plugin_totem-overhaul.jewel": "Jewel"
 }

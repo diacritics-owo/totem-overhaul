@@ -11,6 +11,8 @@ base {
 }
 
 repositories {
+	mavenCentral()
+
 	maven {
     name = "Ladysnake Mods"
     url = 'https://maven.ladysnake.org/releases'
@@ -27,6 +29,14 @@ repositories {
       includeGroup "curse.maven"
     }
   }
+
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 loom {
@@ -53,6 +63,11 @@ dependencies {
 
 	// jade
 	modImplementation "curse.maven:jade-324717:${jade_id}"
+
+	// fzzy-config
+	modImplementation "maven.modrinth:fzzy-config:${project.fzzy_config_version}"
+	compileOnly "org.jetbrains.kotlin:kotlin-stdlib:${project.kotlin_version}"
+	implementation "net.peanuuutz.tomlkt:tomlkt:${project.tomlkt_version}"
 }
 
 processResources {

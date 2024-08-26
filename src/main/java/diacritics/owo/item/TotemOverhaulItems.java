@@ -24,6 +24,8 @@ public class TotemOverhaulItems {
   public static void initialize() {
     ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> {
       itemGroup.add(Registries.ITEM.get(BLOOD_JEWEL));
+      itemGroup.add(Registries.ITEM.get(VOID_JEWEL));
+      itemGroup.add(Registries.ITEM.get(CHORUS_JEWEL));
     });
   }
 }

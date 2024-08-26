@@ -18,9 +18,11 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.VillagerProfession;
+import net.peanuuutz.tomlkt.Toml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
+import diacritics.owo.config.Configs;
 import diacritics.owo.item.TotemOverhaulItems;
 import diacritics.owo.jewel.Jewels;
 import diacritics.owo.jewel.effect.JewelEffects;
@@ -34,6 +36,12 @@ public class TotemOverhaul implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("hello from totem overhaul!");
+
+		// clean builds fail without in some way using or loading the toml class before initialising the
+		// config (noclassdeffounderror) - no clue why
+		assert Toml.class != null;
+
+		Configs.initialize();
 
 		Jewels.initialize();
 		TotemOverhaulItems.initialize();

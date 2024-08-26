@@ -1,6 +1,7 @@
 package diacritics.owo.jewel.effect;
 
 import java.util.function.BiFunction;
+import diacritics.owo.config.Configs;
 import diacritics.owo.jewel.Jewel;
 import diacritics.owo.jewel.Jewels;
 import diacritics.owo.util.TotemOverhaulHelpers;
@@ -9,13 +10,19 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.event.GameEvent.Emitter;
 
 public class JewelEffects {
   public static BiFunction<LivingEntity, DamageSource, Boolean> VANILLA = (entity, source) -> {
@@ -66,9 +73,9 @@ public class JewelEffects {
         }
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
-          entity.teleportTo(
-              new TeleportTarget(serverWorld, new Vec3d(entity.getX(), 300, entity.getZ()),
-                  entity.getVelocity(), entity.getYaw(), entity.getPitch(), TeleportTarget.NO_OP));
+          entity.teleportTo(new TeleportTarget(serverWorld,
+              new Vec3d(entity.getX(), Configs.config.voidJewel.height.get(), entity.getZ()),
+              entity.getVelocity(), entity.getYaw(), entity.getPitch(), TeleportTarget.NO_OP));
         }
 
         entity.setHealth(1.0F);
@@ -91,7 +98,46 @@ public class JewelEffects {
         }
 
         if (entity.getWorld() instanceof ServerWorld serverWorld) {
-          new ItemStack(Items.CHORUS_FRUIT).finishUsing(serverWorld, entity);
+          for (int i = 0; i < Configs.config.chorusJewel.rolls.get(); ++i) {
+            double x = entity.getX() + (entity.getRandom().nextDouble() - 0.5)
+                * (2 * Configs.config.chorusJewel.radius.get());
+            double y = MathHelper.clamp(entity.getY()
+                + (double) (entity.getRandom().nextInt(2 * Configs.config.chorusJewel.radius.get())
+                    - Configs.config.chorusJewel.radius.get()),
+                (double) serverWorld.getBottomY(),
+                (double) (serverWorld.getBottomY() + serverWorld.getLogicalHeight() - 1));
+            double z = entity.getZ() + (entity.getRandom().nextDouble() - 0.5)
+                * (2 * Configs.config.chorusJewel.radius.get());
+
+            if (entity.hasVehicle()) {
+              entity.stopRiding();
+            }
+
+            Vec3d vec3d = entity.getPos();
+            if (entity.teleport(x, y, z, true)) {
+              serverWorld.emitGameEvent(GameEvent.TELEPORT, vec3d, Emitter.of(entity));
+              SoundCategory soundCategory;
+              SoundEvent soundEvent;
+
+              if (entity instanceof FoxEntity) {
+                soundEvent = SoundEvents.ENTITY_FOX_TELEPORT;
+                soundCategory = SoundCategory.NEUTRAL;
+              } else {
+                soundEvent = SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT;
+                soundCategory = SoundCategory.PLAYERS;
+              }
+
+              serverWorld.playSound((PlayerEntity) null, entity.getX(), entity.getY(),
+                  entity.getZ(), soundEvent, soundCategory);
+              entity.onLanding();
+
+              break;
+            }
+          }
+
+          if (entity instanceof PlayerEntity player) {
+            player.clearCurrentExplosion();
+          }
         }
 
         entity.setHealth(1.0F);
