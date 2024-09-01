@@ -45,13 +45,11 @@ abstract public class LivingEntityMixin extends Entity {
     return original.call(instance, source);
   }
 
-  // TODO: multiple totems
   @Overwrite
   /*
    * @reason The totem usage logic is replaced completely, necessitating an overwrite
    */
   private boolean tryUseTotem(DamageSource source) {
-    ItemStack totem = null;
     Hand[] heldItems = Hand.values();
 
     for (int i = 0; i < heldItems.length; ++i) {
@@ -59,25 +57,21 @@ abstract public class LivingEntityMixin extends Entity {
       ItemStack held = this.getStackInHand(hand);
       if (held.isOf(Items.TOTEM_OF_UNDYING)
           && held.get(TotemOverhaulDataComponentTypes.JEWEL) != null) {
-        totem = held;
-        break;
-      }
-    }
+        BiFunction<LivingEntity, DamageSource, Boolean> effect =
+            TotemOverhaulRegistries.JEWEL_EFFECT
+                .get(held.get(TotemOverhaulDataComponentTypes.JEWEL).getValue());
 
-    if (totem != null) {
-      BiFunction<LivingEntity, DamageSource, Boolean> effect = TotemOverhaulRegistries.JEWEL_EFFECT
-          .get(totem.get(TotemOverhaulDataComponentTypes.JEWEL).getValue());
+        if (effect != null && effect.apply((LivingEntity) (Object) this, source)) {
+          if ((Object) this instanceof ServerPlayerEntity serverPlayerEntity) {
+            serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING));
+            Criteria.USED_TOTEM.trigger(serverPlayerEntity, held);
+            this.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
+          }
 
-      if (effect != null && effect.apply((LivingEntity) (Object) this, source)) {
-        if ((Object) this instanceof ServerPlayerEntity serverPlayerEntity) {
-          serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(Items.TOTEM_OF_UNDYING));
-          Criteria.USED_TOTEM.trigger(serverPlayerEntity, totem);
-          this.emitGameEvent(GameEvent.ITEM_INTERACT_FINISH);
+          held.decrement(1);
+
+          return true;
         }
-
-        totem.decrement(1);
-
-        return true;
       }
     }
 

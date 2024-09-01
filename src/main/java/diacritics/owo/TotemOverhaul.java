@@ -28,7 +28,6 @@ import diacritics.owo.jewel.Jewels;
 import diacritics.owo.jewel.effect.JewelEffects;
 import diacritics.owo.recipe.TotemOverhaulRecipeSerializers;
 
-// TODO: config
 public class TotemOverhaul implements ModInitializer {
 	public static final String MOD_ID = "totem-overhaul";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
