@@ -2,6 +2,7 @@ package diacritics.owo.jewel.effect;
 
 import java.util.function.BiFunction;
 import diacritics.owo.config.Configs;
+import diacritics.owo.config.TotemOverhaulConfig;
 import diacritics.owo.jewel.Jewel;
 import diacritics.owo.jewel.Jewels;
 import diacritics.owo.util.TotemOverhaulHelpers;
@@ -51,11 +52,8 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 500, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 500, 1));
-
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+        TotemOverhaulConfig.applyEffects(entity, Configs.config.bloodJewel.effectDurations,
+            Configs.config.bloodJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
 
@@ -81,10 +79,8 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 300, 0));
-
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+        TotemOverhaulConfig.applyEffects(entity, Configs.config.voidJewel.effectDurations,
+            Configs.config.voidJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
 
@@ -143,9 +139,8 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+        TotemOverhaulConfig.applyEffects(entity, Configs.config.chorusJewel.effectDurations,
+            Configs.config.chorusJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
 
