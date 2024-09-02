@@ -6,8 +6,8 @@ import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import diacritics.owo.Helpers;
 import diacritics.owo.component.TotemOverhaulComponents;
+import diacritics.owo.util.Helpers;
 
 @Mixin(EvokerEntity.class)
 abstract public class EvokerEntityMixin extends LivingEntity {

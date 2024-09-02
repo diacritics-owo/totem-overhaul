@@ -2,9 +2,9 @@ package diacritics.owo.jewel.effect;
 
 import java.util.function.BiFunction;
 import diacritics.owo.config.Configs;
-import diacritics.owo.config.TotemOverhaulConfig;
 import diacritics.owo.jewel.Jewel;
 import diacritics.owo.jewel.Jewels;
+import diacritics.owo.util.Helpers;
 import diacritics.owo.util.TotemOverhaulHelpers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -52,7 +52,7 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        TotemOverhaulConfig.applyEffects(entity, Configs.config.bloodJewel.effectDurations,
+        Helpers.applyEffects(entity, Configs.config.bloodJewel.effectDurations,
             Configs.config.bloodJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
@@ -79,7 +79,7 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        TotemOverhaulConfig.applyEffects(entity, Configs.config.voidJewel.effectDurations,
+        Helpers.applyEffects(entity, Configs.config.voidJewel.effectDurations,
             Configs.config.voidJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);
@@ -139,7 +139,7 @@ public class JewelEffects {
         entity.setHealth(1.0F);
         entity.clearStatusEffects();
 
-        TotemOverhaulConfig.applyEffects(entity, Configs.config.chorusJewel.effectDurations,
+        Helpers.applyEffects(entity, Configs.config.chorusJewel.effectDurations,
             Configs.config.chorusJewel.effectAmplifiers);
 
         entity.getWorld().sendEntityStatus(entity, (byte) 35);

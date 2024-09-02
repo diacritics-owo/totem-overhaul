@@ -6,9 +6,7 @@ import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.collection.ValidatedIdentifierMap;
 import me.fzzyhmstrs.fzzy_config.validation.minecraft.ValidatedIdentifier;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -98,14 +96,5 @@ public class TotemOverhaulConfig extends Config {
 
   public static Identifier id(RegistryEntry<StatusEffect> effect) {
     return effect.getKey().get().getValue();
-  }
-
-  public static void applyEffects(LivingEntity entity, ValidatedIdentifierMap<Integer> durations,
-      ValidatedIdentifierMap<Integer> amplifiers) {
-    durations.forEach((effect, duration) -> {
-      entity
-          .addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(effect).get(),
-              duration, amplifiers.getOrDefault(effect, 1) - 1));
-    });
   }
 }
