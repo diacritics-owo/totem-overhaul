@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,9 +15,7 @@ import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import diacritics.owo.component.EntityJewelComponent;
 import diacritics.owo.component.TotemOverhaulComponents;
 import diacritics.owo.component.TotemOverhaulDataComponentTypes;
 import diacritics.owo.registry.TotemOverhaulRegistries;
@@ -33,23 +30,17 @@ abstract public class LivingEntityMixin extends Entity {
   @Shadow
   abstract public ItemStack getStackInHand(Hand hand);
 
-  @WrapOperation(method = "damage", at = @At(value = "INVOKE",
-      target = "Lnet/minecraft/entity/LivingEntity;tryUseTotem(Lnet/minecraft/entity/damage/DamageSource;)Z"))
-  private boolean useEvokerJewel(LivingEntity instance, DamageSource source,
-      Operation<Boolean> original) {
-    if (instance instanceof EvokerEntity evoker
-        && TotemOverhaulComponents.JEWEL.get(evoker).tryUseJewel(source)) {
-      return true;
-    }
-
-    return original.call(instance, source);
-  }
-
   @Overwrite
   /*
    * @reason The totem usage logic is replaced completely, necessitating an overwrite
    */
   private boolean tryUseTotem(DamageSource source) {
+    if (TotemOverhaulComponents.JEWEL
+        .getNullable(this) instanceof EntityJewelComponent jewelComponent
+        && jewelComponent.tryUseJewel(source)) {
+      return true;
+    }
+
     Hand[] heldItems = Hand.values();
 
     for (int i = 0; i < heldItems.length; ++i) {

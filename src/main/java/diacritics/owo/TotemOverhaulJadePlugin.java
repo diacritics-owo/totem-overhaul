@@ -2,7 +2,7 @@ package diacritics.owo;
 
 import diacritics.owo.component.EntityJewelComponent;
 import diacritics.owo.component.TotemOverhaulComponents;
-import net.minecraft.entity.mob.EvokerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -20,16 +20,15 @@ import snownee.jade.api.config.IPluginConfig;
 public class TotemOverhaulJadePlugin implements IWailaPlugin {
   @Override
   public void register(IWailaCommonRegistration registration) {
-    registration.registerEntityDataProvider(EvokerJewelComponentProvider.INSTANCE,
-        EvokerEntity.class);
+    registration.registerEntityDataProvider(EntityJewelComponentProvider.INSTANCE, Entity.class);
   }
 
   @Override
   public void registerClient(IWailaClientRegistration registration) {
-    registration.registerEntityComponent(EvokerJewelComponentProvider.INSTANCE, EvokerEntity.class);
+    registration.registerEntityComponent(EntityJewelComponentProvider.INSTANCE, Entity.class);
   }
 
-  public enum EvokerJewelComponentProvider
+  public enum EntityJewelComponentProvider
       implements IEntityComponentProvider, IServerDataProvider<EntityAccessor> {
     INSTANCE;
 
@@ -47,10 +46,8 @@ public class TotemOverhaulJadePlugin implements IWailaPlugin {
 
     @Override
     public void appendServerData(NbtCompound data, EntityAccessor accessor) {
-      EvokerEntity evoker = (EvokerEntity) accessor.getEntity();
-      EntityJewelComponent jewelComponent = TotemOverhaulComponents.JEWEL.get(evoker);
-
-      if (jewelComponent.getJewel() != null) {
+      if (TotemOverhaulComponents.JEWEL
+          .getNullable(accessor.getEntity()) instanceof EntityJewelComponent jewelComponent) {
         data.putString("jewel", jewelComponent.getJewelKey().getValue().toTranslationKey("jewel"));
       }
     }
